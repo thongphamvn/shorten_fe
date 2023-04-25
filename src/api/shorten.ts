@@ -10,7 +10,9 @@ import api from './api'
 
 export type ShortenPayload = {
   originalUrl: string
+  customShortUrl?: string
 }
+
 export type ShortenUrlType = {
   id: string
   originalUrl: string

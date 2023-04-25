@@ -4,6 +4,7 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
+  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -17,16 +18,11 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import { ShortenUrlType, useCreateShort } from '../api/shorten'
+import { ShortenPayload, ShortenUrlType, useCreateShort } from '../api/shorten'
 import ShortUrl from './ShortUrl'
 
-type CreatePayload = {
-  longUrl: string
-  customShortUrl?: string
-}
-
-const schema = yup.object<CreatePayload>().shape({
-  longUrl: yup
+const schema = yup.object<ShortenPayload>().shape({
+  originalUrl: yup
     .string()
     .url('Please enter a valid URL')
     .required('This field is required'),
@@ -44,19 +40,31 @@ export default function CreateNewModal() {
     register,
     handleSubmit,
     reset,
+    setError,
     formState: { errors },
-  } = useForm<CreatePayload>({
+  } = useForm<ShortenPayload>({
     resolver: yupResolver(schema),
   })
 
   const { mutate, isLoading } = useCreateShort({
     onSuccess: (data) => {
       setCreatedShort(data)
+      onClose()
+    },
+    onError: (error: any) => {
+      console.log(error.response?.data.message)
+      setError('customShortUrl', {
+        type: 'server',
+        message: error.response?.data.message,
+      })
     },
   })
 
-  const onSubmit = async (data: CreatePayload) => {
-    await mutate({ originalUrl: data.longUrl })
+  const onSubmit = async (data: ShortenPayload) => {
+    await mutate({
+      originalUrl: data.originalUrl,
+      customShortUrl: data.customShortUrl,
+    })
   }
 
   const createdContent = () => {
@@ -85,12 +93,20 @@ export default function CreateNewModal() {
     )
   }
 
-  const { ref, ...longRest } = register('longUrl', { required: true })
+  const { ref, ...longRest } = register('originalUrl', { required: true })
+
   return (
     <>
-      <Button colorScheme='teal' onClick={onOpen}>
-        Create New
-      </Button>
+      <Link
+        onClick={onOpen}
+        aria-label='Add New'
+        color={'teal.500'}
+        bgColor={'white'}
+        borderColor={'teal.500'}
+      >
+        here
+      </Link>
+
       <Modal
         initialFocusRef={createdShort ? undefined : initialRef}
         finalFocusRef={finalRef}
@@ -105,7 +121,7 @@ export default function CreateNewModal() {
             <ModalHeader>Create your Short</ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
-              <FormControl isRequired isInvalid={!!errors.longUrl}>
+              <FormControl isRequired isInvalid={!!errors.originalUrl}>
                 <FormLabel>Long URL</FormLabel>
                 <Input
                   {...longRest}
@@ -114,15 +130,20 @@ export default function CreateNewModal() {
                     initialRef.current = e
                   }}
                 />
-                {errors.longUrl && (
+                {errors.originalUrl && (
                   <FormErrorMessage>
-                    {errors.longUrl.message as string}
+                    {errors.originalUrl.message as string}
                   </FormErrorMessage>
                 )}
               </FormControl>
-              <FormControl mt={4}>
+              <FormControl mt={4} isInvalid={!!errors.customShortUrl}>
                 <FormLabel>Custom short URL</FormLabel>
                 <Input {...register('customShortUrl')} />
+                {errors.customShortUrl && (
+                  <FormErrorMessage>
+                    {errors.customShortUrl.message as string}
+                  </FormErrorMessage>
+                )}
               </FormControl>
             </ModalBody>
             <ModalFooter>

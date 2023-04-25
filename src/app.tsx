@@ -6,6 +6,7 @@ import GotoLink from './pages/GotoLink'
 import Home from './pages/Home'
 import Landing from './pages/Landing'
 import Profile from './pages/Profile'
+import ShortDetail from './pages/ShortDetail'
 
 export function App() {
   const { isAuthenticated } = useAuth0()
@@ -13,7 +14,16 @@ export function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<RootLayout />}>
-          <Route path='/' element={isAuthenticated ? <Home /> : <Landing />} />
+          <Route path='/' element={isAuthenticated ? <Home /> : <Landing />}>
+            <Route
+              path='s/:shortUrl'
+              element={
+                <ProtectedRoute>
+                  <ShortDetail />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
           <Route
             path='profile'
             element={

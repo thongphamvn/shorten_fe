@@ -11,29 +11,31 @@ export default function Navbar() {
   }
 
   return (
-    <Flex
-      px={4}
-      boxShadow="xs"
-      h="12"
-      justifyContent="center"
-      alignItems="center"
-    >
-      <Link to={'/'}>
-        <Heading fontFamily={'sans-serif'} size="lg">
-          <span color="#008b8b">S</span>hort.
-        </Heading>
-      </Link>
+    <Box position={'sticky'} top={0} zIndex={'10'} bg='white'>
+      <Flex
+        px={4}
+        boxShadow='xs'
+        h='12'
+        justifyContent='center'
+        alignItems='center'
+      >
+        <Link to={'/'}>
+          <Heading fontFamily={'sans-serif'} size='lg'>
+            <span color='#008b8b'>S</span>hort.
+          </Heading>
+        </Link>
 
-      <Spacer />
-      <Box>
-        {!isAuthenticated ? (
-          <Button bg={'red.500'} textColor={'white'} onClick={handleLogin}>
-            Login
-          </Button>
-        ) : (
-          <NavMenu />
-        )}
-      </Box>
-    </Flex>
+        <Spacer />
+        <Box>
+          {!isAuthenticated ? (
+            <Button bg={'red.500'} textColor={'white'} onClick={handleLogin}>
+              Login
+            </Button>
+          ) : (
+            <NavMenu />
+          )}
+        </Box>
+      </Flex>
+    </Box>
   )
 }
