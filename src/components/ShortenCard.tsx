@@ -1,8 +1,8 @@
 import { Card, CardBody, Text } from '@chakra-ui/react'
-import { ShortenResponse } from '@common'
+import { ShortenUrlType } from '../api/shorten'
 import ShortUrl from './ShortUrl'
 
-export default function ShortenCard({ link }: { link: ShortenResponse }) {
+export default function ShortenCard({ link }: { link: ShortenUrlType }) {
   const { originalUrl, shortUrl } = link
 
   return (

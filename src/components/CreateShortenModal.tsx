@@ -13,12 +13,11 @@ import {
   ModalOverlay,
   useDisclosure,
 } from '@chakra-ui/react'
-import { ShortenResponse } from '@common'
 import { yupResolver } from '@hookform/resolvers/yup'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import { useCreateShort } from '../api/shorten'
+import { ShortenUrlType, useCreateShort } from '../api/shorten'
 import ShortUrl from './ShortUrl'
 
 type CreatePayload = {
@@ -39,7 +38,7 @@ export default function CreateNewModal() {
 
   const initialRef = React.useRef<HTMLInputElement | null>(null)
   const finalRef = React.useRef(null)
-  const [createdShort, setCreatedShort] = useState<ShortenResponse>()
+  const [createdShort, setCreatedShort] = useState<ShortenUrlType>()
 
   const {
     register,
@@ -50,7 +49,7 @@ export default function CreateNewModal() {
     resolver: yupResolver(schema),
   })
 
-  const { mutate, isLoading, isError } = useCreateShort({
+  const { mutate, isLoading } = useCreateShort({
     onSuccess: (data) => {
       setCreatedShort(data)
     },
@@ -89,7 +88,7 @@ export default function CreateNewModal() {
   const { ref, ...longRest } = register('longUrl', { required: true })
   return (
     <>
-      <Button colorScheme="teal" onClick={onOpen}>
+      <Button colorScheme='teal' onClick={onOpen}>
         Create New
       </Button>
       <Modal
@@ -129,7 +128,7 @@ export default function CreateNewModal() {
             <ModalFooter>
               <Button
                 isLoading={isLoading}
-                colorScheme="teal"
+                colorScheme='teal'
                 mr={3}
                 onClick={handleSubmit(onSubmit)}
               >
