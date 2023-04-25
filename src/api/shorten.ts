@@ -1,10 +1,11 @@
 import {
   UseMutationOptions,
+  UseQueryOptions,
   useMutation,
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
+import { AxiosError, AxiosResponse } from 'axios'
 import api from './api'
 
 export type ShortenPayload = {
@@ -22,11 +23,6 @@ const createShort = async (payload: ShortenPayload) => {
   return data
 }
 
-const getShorts = async () => {
-  const { data } = await api.get('shorten')
-  return data
-}
-
 export const useCreateShort = (
   opts: UseMutationOptions<ShortenUrlType, AxiosError, ShortenPayload> = {}
 ) => {
@@ -41,8 +37,37 @@ export const useCreateShort = (
   })
 }
 
+//
+const getShorts = async () => {
+  const { data } = await api.get('shorten')
+  return data
+}
+
 export const useGetShorten = () =>
   useQuery<ShortenUrlType[]>({
     queryKey: ['shorten'],
     queryFn: () => getShorts(),
+  })
+
+//
+const gotoLink = async (shortUrl: string) => {
+  const { data } = await api.get(`p/${shortUrl}`)
+  return data
+}
+
+type GotoLinkResponse = {
+  url: string
+}
+
+export const useGotoLink = (
+  shortUrl: string,
+  opts: UseQueryOptions<
+    AxiosResponse<GotoLinkResponse>['data'],
+    AxiosError
+  > = {}
+) =>
+  useQuery<AxiosResponse<GotoLinkResponse>['data'], AxiosError>({
+    ...opts,
+    queryKey: ['gotoLink', shortUrl],
+    queryFn: () => gotoLink(shortUrl),
   })
