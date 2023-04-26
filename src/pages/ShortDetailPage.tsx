@@ -7,7 +7,7 @@ import ShortDrawer from '../components/ShortDrawer'
 export default function ShortDetailPage() {
   const { shortUrl } = useParams()
 
-  const { data, isLoading } = useSingleOneShort(shortUrl!, {
+  const { data } = useSingleOneShort(shortUrl!, {
     enabled: !!shortUrl,
     onError: () => {
       console.log('error')
