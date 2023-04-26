@@ -4,9 +4,12 @@ import Navbar from './Navbar'
 
 export default function RootLayout() {
   return (
-    <Box>
+    <Box h='100vh' bg='gray.50'>
       <Navbar />
-      <Outlet />
+
+      <Box h='calc(100vh - 3rem)'>
+        <Outlet />
+      </Box>
     </Box>
   )
 }

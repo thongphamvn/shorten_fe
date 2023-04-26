@@ -19,7 +19,6 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { ShortenPayload, ShortenUrlType, useCreateShort } from '../api/shorten'
-import ShortUrl from './ShortUrl'
 
 const schema = yup.object<ShortenPayload>().shape({
   originalUrl: yup
@@ -49,6 +48,7 @@ export default function CreateNewModal() {
   const { mutate, isLoading } = useCreateShort({
     onSuccess: (data) => {
       setCreatedShort(data)
+      reset()
       onClose()
     },
     onError: (error: any) => {
@@ -67,32 +67,6 @@ export default function CreateNewModal() {
     })
   }
 
-  const createdContent = () => {
-    if (!createdShort) {
-      return null
-    }
-
-    return (
-      <ModalContent>
-        <ModalHeader>Your Created Short</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody pb={6}>
-          <ShortUrl short={createdShort.shortUrl} />
-        </ModalBody>
-        <ModalFooter>
-          <Button
-            onClick={() => {
-              setCreatedShort(undefined)
-              reset()
-            }}
-          >
-            Create another
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    )
-  }
-
   const { ref, ...longRest } = register('originalUrl', { required: true })
 
   return (
@@ -103,6 +77,7 @@ export default function CreateNewModal() {
         color={'teal.500'}
         bgColor={'white'}
         borderColor={'teal.500'}
+        fontWeight={'semibold'}
       >
         here
       </Link>
@@ -114,51 +89,47 @@ export default function CreateNewModal() {
         onClose={onClose}
       >
         <ModalOverlay />
-        {createdShort ? (
-          createdContent()
-        ) : (
-          <ModalContent>
-            <ModalHeader>Create your Short</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody pb={6}>
-              <FormControl isRequired isInvalid={!!errors.originalUrl}>
-                <FormLabel>Long URL</FormLabel>
-                <Input
-                  {...longRest}
-                  ref={(e) => {
-                    ref(e)
-                    initialRef.current = e
-                  }}
-                />
-                {errors.originalUrl && (
-                  <FormErrorMessage>
-                    {errors.originalUrl.message as string}
-                  </FormErrorMessage>
-                )}
-              </FormControl>
-              <FormControl mt={4} isInvalid={!!errors.customShortUrl}>
-                <FormLabel>Custom short URL</FormLabel>
-                <Input {...register('customShortUrl')} />
-                {errors.customShortUrl && (
-                  <FormErrorMessage>
-                    {errors.customShortUrl.message as string}
-                  </FormErrorMessage>
-                )}
-              </FormControl>
-            </ModalBody>
-            <ModalFooter>
-              <Button
-                isLoading={isLoading}
-                colorScheme='teal'
-                mr={3}
-                onClick={handleSubmit(onSubmit)}
-              >
-                Create
-              </Button>
-              <Button onClick={onClose}>Cancel</Button>
-            </ModalFooter>
-          </ModalContent>
-        )}
+        <ModalContent>
+          <ModalHeader>Create your Short</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl isRequired isInvalid={!!errors.originalUrl}>
+              <FormLabel>Long URL</FormLabel>
+              <Input
+                {...longRest}
+                ref={(e) => {
+                  ref(e)
+                  initialRef.current = e
+                }}
+              />
+              {errors.originalUrl && (
+                <FormErrorMessage>
+                  {errors.originalUrl.message as string}
+                </FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl mt={4} isInvalid={!!errors.customShortUrl}>
+              <FormLabel>Custom short URL</FormLabel>
+              <Input {...register('customShortUrl')} />
+              {errors.customShortUrl && (
+                <FormErrorMessage>
+                  {errors.customShortUrl.message as string}
+                </FormErrorMessage>
+              )}
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              isLoading={isLoading}
+              colorScheme='teal'
+              mr={3}
+              onClick={handleSubmit(onSubmit)}
+            >
+              Create
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
       </Modal>
     </>
   )

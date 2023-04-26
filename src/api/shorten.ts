@@ -20,6 +20,7 @@ export type ShortenUrlType = {
   ownerId?: string
 }
 
+// create
 const createShort = async (payload: ShortenPayload) => {
   const { data } = await api.post('shorten', payload)
   return data
@@ -39,7 +40,7 @@ export const useCreateShort = (
   })
 }
 
-//
+// get
 const getShorts = async () => {
   const { data } = await api.get('shorten')
   return data
@@ -49,9 +50,36 @@ export const useGetShorten = () =>
   useQuery<ShortenUrlType[]>({
     queryKey: ['shorten'],
     queryFn: () => getShorts(),
+    initialData: [],
   })
 
-//
+// get one
+export type GetShortDetailsResponse = {
+  id: string
+  originalUrl: string
+  shortUrl: string
+  createdAt: string
+  updatedAt: string
+}
+
+const getSingleShort = async (
+  short: string
+): Promise<GetShortDetailsResponse> => {
+  const { data } = await api.get<GetShortDetailsResponse>(`shorten/${short}`)
+  return data
+}
+
+export const useSingleOneShort = (
+  short: string,
+  opts: UseQueryOptions<GetShortDetailsResponse> = {}
+) =>
+  useQuery<GetShortDetailsResponse>({
+    queryKey: ['shorten-detail'],
+    queryFn: () => getSingleShort(short),
+    ...opts,
+  })
+
+// to link
 const gotoLink = async (shortUrl: string) => {
   const { data } = await api.get(`p/${shortUrl}`)
   return data
@@ -73,3 +101,23 @@ export const useGotoLink = (
     queryKey: ['gotoLink', shortUrl],
     queryFn: () => gotoLink(shortUrl),
   })
+
+// Delete
+const deleteShort = async (short: string): Promise<void> => {
+  await api.delete<GetShortDetailsResponse>(`shorten/${short}`)
+}
+
+export const useDeleteShort = (
+  short: string,
+  opts: UseMutationOptions<void> = {}
+) => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    ...opts,
+    mutationFn: () => deleteShort(short),
+    onSuccess: (...args) => {
+      opts.onSuccess?.(...args)
+      queryClient.invalidateQueries(['shorten'])
+    },
+  })
+}

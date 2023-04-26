@@ -14,14 +14,15 @@ export default function Navbar() {
     <Box position={'sticky'} top={0} zIndex={'10'} bg='white'>
       <Flex
         px={4}
-        boxShadow='xs'
+        mx={'auto'}
         h='12'
         justifyContent='center'
         alignItems='center'
+        maxW={'5xl'}
       >
         <Link to={'/'}>
           <Heading fontFamily={'sans-serif'} size='lg'>
-            <span color='#008b8b'>S</span>hort.
+            Short.
           </Heading>
         </Link>
 

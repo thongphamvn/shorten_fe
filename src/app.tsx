@@ -6,7 +6,7 @@ import GotoLink from './pages/GotoLink'
 import Home from './pages/Home'
 import Landing from './pages/Landing'
 import Profile from './pages/Profile'
-import ShortDetail from './pages/ShortDetail'
+import ShortDetailPage from './pages/ShortDetailPage'
 
 export function App() {
   const { isAuthenticated } = useAuth0()
@@ -19,7 +19,7 @@ export function App() {
               path='s/:shortUrl'
               element={
                 <ProtectedRoute>
-                  <ShortDetail />
+                  <ShortDetailPage />
                 </ProtectedRoute>
               }
             />

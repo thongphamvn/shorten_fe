@@ -1,6 +1,5 @@
 import { CloseIcon } from '@chakra-ui/icons'
 import {
-  Box,
   Drawer,
   DrawerBody,
   DrawerContent,
@@ -10,13 +9,16 @@ import {
   IconButton,
   Spacer,
   Text,
-  useBreakpointValue,
   useDisclosure,
 } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-export default function ShortDetail() {
+type Props = {
+  children: React.ReactNode
+}
+
+export default function ShortDrawer({ children }: Props) {
   const { shortUrl } = useParams()
   const navigate = useNavigate()
 
@@ -34,14 +36,6 @@ export default function ShortDetail() {
     navigate('/')
   }
 
-  const isSmallScreen = useBreakpointValue({ base: true, md: false })
-
-  const Content = <Box bg='green.50'>Link detail goes here {shortUrl}</Box>
-
-  if (!isSmallScreen) {
-    return Content
-  }
-
   return (
     <Drawer
       closeOnOverlayClick={false}
@@ -50,7 +44,7 @@ export default function ShortDetail() {
       isOpen={isOpen}
     >
       <DrawerOverlay />
-      <DrawerContent minH={'50%'} roundedTop={8}>
+      <DrawerContent minH={'100%'} roundedTop={8}>
         <DrawerHeader borderBottomWidth='1px'>
           <Flex align={'center'}>
             <Text>Link Details</Text>
@@ -63,7 +57,7 @@ export default function ShortDetail() {
             />
           </Flex>
         </DrawerHeader>
-        <DrawerBody>{Content}</DrawerBody>
+        <DrawerBody>{children}</DrawerBody>
       </DrawerContent>
     </Drawer>
   )
