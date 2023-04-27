@@ -17,7 +17,6 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 import { ShortenPayload, useCreateShort } from '../api/shorten'
 
@@ -31,7 +30,7 @@ const schema = yup.object<ShortenPayload>().shape({
 
 export default function CreateNewModal() {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const navigate = useNavigate()
+
   const initialRef = React.useRef<HTMLInputElement | null>(null)
   const finalRef = React.useRef(null)
 
@@ -46,10 +45,9 @@ export default function CreateNewModal() {
   })
 
   const { mutate, isLoading } = useCreateShort({
-    onSuccess: (data) => {
+    onSuccess: () => {
       reset()
       onClose()
-      // navigate(`s/${data.shortUrl}`)
     },
     onError: (error: any) => {
       console.log(error.response?.data.message)
