@@ -37,7 +37,7 @@ export default function Home() {
   }
 
   return (
-    <Container h='100%' maxW='container.lg' mx={'auto'} p={4}>
+    <Container h='100%' maxW='container.lg' mx={'auto'} p={9}>
       <VStack>
         <Flex h={8} my={4} px={4} mx='auto' maxW='lg' align={'center'}>
           <SkeletonText isLoaded={!isFetching}>
@@ -63,14 +63,15 @@ export default function Home() {
           align={['center', null, 'start']}
         >
           <VStack
-            h={['100%', null, `calc(100vh - 9.5rem)`]}
+            h={[null, null, `calc(100vh - 11rem)`]}
             bg={[null, null, 'white']}
             overflowY={'auto'}
             spacing={2}
             align='sketch'
             w={['100%', 'sm', '300px', 'sm']}
-            mr={['', '', 4]}
+            mr={[null, null, 4]}
             rounded={4}
+            mb={4}
           >
             {isFetching && (
               <Box display={'flex'} flexDirection={'column'} gap={4} mx={4}>
@@ -94,7 +95,7 @@ export default function Home() {
           <Box flex={1}>
             <Box
               display={['none', null, 'block']}
-              h={`calc(100vh - 9.5rem)`}
+              h={`calc(100vh - 11rem)`}
               bg='white'
               rounded={4}
               p={4}
