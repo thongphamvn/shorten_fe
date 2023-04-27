@@ -51,6 +51,7 @@ export const useGetShorten = () =>
     queryKey: ['shorten'],
     queryFn: () => getShorts(),
     initialData: [],
+    refetchOnWindowFocus: false,
   })
 
 // get one
@@ -74,7 +75,7 @@ export const useSingleOneShort = (
   opts: UseQueryOptions<GetShortDetailsResponse> = {}
 ) =>
   useQuery<GetShortDetailsResponse>({
-    queryKey: ['shorten-detail'],
+    queryKey: ['shorten-detail', short],
     queryFn: () => getSingleShort(short),
     ...opts,
   })

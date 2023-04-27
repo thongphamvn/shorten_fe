@@ -15,10 +15,11 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import React, { useState } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
-import { ShortenPayload, ShortenUrlType, useCreateShort } from '../api/shorten'
+import { ShortenPayload, useCreateShort } from '../api/shorten'
 
 const schema = yup.object<ShortenPayload>().shape({
   originalUrl: yup
@@ -30,10 +31,9 @@ const schema = yup.object<ShortenPayload>().shape({
 
 export default function CreateNewModal() {
   const { isOpen, onOpen, onClose } = useDisclosure()
-
+  const navigate = useNavigate()
   const initialRef = React.useRef<HTMLInputElement | null>(null)
   const finalRef = React.useRef(null)
-  const [createdShort, setCreatedShort] = useState<ShortenUrlType>()
 
   const {
     register,
@@ -47,9 +47,9 @@ export default function CreateNewModal() {
 
   const { mutate, isLoading } = useCreateShort({
     onSuccess: (data) => {
-      setCreatedShort(data)
       reset()
       onClose()
+      // navigate(`s/${data.shortUrl}`)
     },
     onError: (error: any) => {
       console.log(error.response?.data.message)
@@ -75,15 +75,14 @@ export default function CreateNewModal() {
         onClick={onOpen}
         aria-label='Add New'
         color={'teal.500'}
-        bgColor={'white'}
         borderColor={'teal.500'}
-        fontWeight={'semibold'}
+        fontWeight={'bold'}
       >
         here
       </Link>
 
       <Modal
-        initialFocusRef={createdShort ? undefined : initialRef}
+        initialFocusRef={initialRef}
         finalFocusRef={finalRef}
         isOpen={isOpen}
         onClose={onClose}

@@ -29,7 +29,7 @@ export default function Navbar() {
         <Spacer />
         <Box>
           {!isAuthenticated ? (
-            <Button bg={'red.500'} textColor={'white'} onClick={handleLogin}>
+            <Button bg={'teal.500'} textColor={'white'} onClick={handleLogin}>
               Login
             </Button>
           ) : (

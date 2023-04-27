@@ -1,20 +1,33 @@
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
-import { Box, Flex, Heading, IconButton, Spacer, Text } from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  Heading,
+  IconButton,
+  Skeleton,
+  Spacer,
+  Text,
+} from '@chakra-ui/react'
 import { format } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
-import { GetShortDetailsResponse, useDeleteShort } from '../api/shorten'
+import { useDeleteShort, useSingleOneShort } from '../api/shorten'
 import { useCustomToast } from '../hooks/useCustomToast'
 import ShortUrl from './ShortUrl'
 
-export default function ShortDetail({
-  short,
-}: {
-  short: GetShortDetailsResponse
-}) {
+export default function ShortDetail({ shortUrl }: { shortUrl: string }) {
   const toast = useCustomToast()
   const navigate = useNavigate()
 
-  const { mutate: handleDel, isLoading } = useDeleteShort(short.shortUrl, {
+  const {
+    data: short,
+    isFetching,
+    error,
+  } = useSingleOneShort(shortUrl!, {
+    enabled: !!shortUrl,
+    refetchOnWindowFocus: false,
+  })
+
+  const { mutate: handleDel, isLoading } = useDeleteShort(shortUrl, {
     onSuccess: () => {
       toast({
         title: 'Link deleted.',
@@ -31,6 +44,20 @@ export default function ShortDetail({
       })
     },
   })
+
+  if (error) {
+    return <Box>Something went wrong</Box>
+  }
+
+  if (isFetching || !short) {
+    return (
+      <Flex gap={4} direction={'column'} w='100%'>
+        <Skeleton h={20} />
+        <Skeleton h={20} />
+        <Skeleton h={20} />
+      </Flex>
+    )
+  }
 
   return (
     <Flex w='full'>

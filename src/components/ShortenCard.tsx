@@ -16,7 +16,9 @@ export default function ShortenCard({ link }: { link: ShortenUrlType }) {
           shadow: 'md',
         }}
         rounded={'md'}
-        bg={selectedShort === link.shortUrl ? 'teal.50' : 'white'}
+        borderBottom={selectedShort === link.shortUrl ? '4px' : ''}
+        borderColor={selectedShort === link.shortUrl ? 'teal.500' : ''}
+        bg='white'
       >
         <Text noOfLines={1}>{originalUrl}</Text>
         <ShortUrl short={shortUrl} />
