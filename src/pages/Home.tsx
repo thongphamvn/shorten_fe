@@ -4,6 +4,7 @@ import {
   Flex,
   Heading,
   Skeleton,
+  SkeletonText,
   Text,
   VStack,
 } from '@chakra-ui/react'
@@ -39,7 +40,7 @@ export default function Home() {
     <Container h='100%' maxW='container.lg' mx={'auto'} p={4}>
       <VStack>
         <Flex h={8} my={4} px={4} mx='auto' maxW='lg' align={'center'}>
-          <Skeleton isLoaded={!isFetching}>
+          <SkeletonText isLoaded={!isFetching}>
             {data?.length === 10 ? (
               <Heading as={'h3'} size={'sm'} fontWeight={'normal'}>
                 You have reached the maximum limit of 10 links allowed per user.
@@ -52,7 +53,7 @@ export default function Home() {
                 please click <CreateNewModal />.
               </Heading>
             )}
-          </Skeleton>
+          </SkeletonText>
         </Flex>
 
         <Flex
@@ -72,14 +73,14 @@ export default function Home() {
             rounded={4}
           >
             {isFetching && (
-              <>
+              <Box display={'flex'} flexDirection={'column'} gap={4} mx={4}>
                 <Skeleton mt={4} h={20} />
                 <Skeleton h={20} />
                 <Skeleton h={20} />
                 <Skeleton h={20} />
                 <Skeleton h={20} />
                 <Skeleton h={20} />
-              </>
+              </Box>
             )}
 
             {!isFetching &&

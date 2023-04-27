@@ -44,7 +44,7 @@ export default function ShortDrawer({ children }: Props) {
       isOpen={isOpen}
     >
       <DrawerOverlay />
-      <DrawerContent minH={'100%'} roundedTop={8}>
+      <DrawerContent minH={'100%'}>
         <DrawerHeader borderBottomWidth='1px'>
           <Flex align={'center'}>
             <Text>Link Details</Text>
