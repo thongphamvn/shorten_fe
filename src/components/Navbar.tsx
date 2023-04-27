@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react'
-import { Box, Button, Flex, Heading, Spacer } from '@chakra-ui/react'
+import { Box, Button, Flex, Heading, Spacer, Text } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import NavMenu from './NavMenu'
 
@@ -22,7 +22,10 @@ export default function Navbar() {
       >
         <Link to={'/'}>
           <Heading fontFamily={'sans-serif'} size='lg'>
-            Short.
+            Short
+            <Text color={'teal.500'} as='span'>
+              .
+            </Text>
           </Heading>
         </Link>
 

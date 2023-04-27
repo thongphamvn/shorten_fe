@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDeleteShort, useSingleOneShort } from '../api/shorten'
 import { useCustomToast } from '../hooks/useCustomToast'
 import ShortUrl from './ShortUrl'
+import Statistic from './Statistic'
 
 export default function ShortDetail({ shortUrl }: { shortUrl: string }) {
   const toast = useCustomToast()
@@ -60,29 +61,40 @@ export default function ShortDetail({ shortUrl }: { shortUrl: string }) {
   }
 
   return (
-    <Flex w='full'>
-      <Box>
-        <Heading fontSize={'xl'} fontWeight={'semibold'} as={'h3'}>
-          <ShortUrl short={short.shortUrl}></ShortUrl>
-        </Heading>
-        <Box fontSize={'sm'} fontWeight={'light'}>
-          <Text as='span'>{`Created on `}</Text>
-          <Text as='span'>
-            {format(new Date(short.createdAt), 'dd MMM yyyy, hh:mm:ss a')}
-          </Text>
+    <Box>
+      <Flex w='full'>
+        <Box>
+          <Heading fontSize={'xl'} fontWeight={'semibold'} as={'h3'}>
+            <ShortUrl short={short.shortUrl}></ShortUrl>
+          </Heading>
+          <Box fontSize={'sm'} fontWeight={'light'}>
+            <Text as='span'>{`Created on `}</Text>
+            <Text as='span'>
+              {format(new Date(short.createdAt), 'dd MMM yyyy, hh:mm:ss a')}
+            </Text>
+          </Box>
         </Box>
-      </Box>
-      <Spacer />
+        <Spacer />
+        <Box>
+          <IconButton mr={2} aria-label='Edit Icon' icon={<EditIcon />} />
+          <IconButton
+            isLoading={isLoading}
+            onClick={() => handleDel()}
+            color={'red.500'}
+            aria-label='Delete Icon'
+            icon={<DeleteIcon />}
+          />
+        </Box>
+      </Flex>
+
       <Box>
-        <IconButton mr={2} aria-label='Edit Icon' icon={<EditIcon />} />
-        <IconButton
-          isLoading={isLoading}
-          onClick={() => handleDel()}
-          color={'red.500'}
-          aria-label='Delete Icon'
-          icon={<DeleteIcon />}
-        />
+        <Text>Total visits: 100</Text>
       </Box>
-    </Flex>
+
+      <Box height={'300px'}>
+        <Text>Statistics in the last 6 months</Text>
+        <Statistic />
+      </Box>
+    </Box>
   )
 }
