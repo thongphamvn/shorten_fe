@@ -63,15 +63,18 @@ export default function Home() {
         >
           <VStack
             h={['100%', null, `calc(100vh - 9.5rem)`]}
+            bg={[null, null, 'white']}
             overflowY={'auto'}
             spacing={2}
             align='sketch'
             w={['100%', 'sm', '300px', 'sm']}
-            pr={['', '', 4]}
+            mr={['', '', 4]}
+            rounded={4}
           >
             {isFetching && (
               <>
                 <Skeleton mt={4} h={20} />
+                <Skeleton h={20} />
                 <Skeleton h={20} />
                 <Skeleton h={20} />
                 <Skeleton h={20} />

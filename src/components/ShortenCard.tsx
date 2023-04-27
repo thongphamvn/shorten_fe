@@ -10,13 +10,12 @@ export default function ShortenCard({ link }: { link: ShortenUrlType }) {
   return (
     <Link to={`/s/${link.shortUrl}`}>
       <Box
-        shadow={'sm'}
+        shadow={selectedShort === link.shortUrl ? 'md' : 'sm'}
         p={4}
         _hover={{
           shadow: 'md',
         }}
-        rounded={'md'}
-        borderBottom={selectedShort === link.shortUrl ? '4px' : ''}
+        borderLeft={selectedShort === link.shortUrl ? '4px' : ''}
         borderColor={selectedShort === link.shortUrl ? 'teal.500' : ''}
         bg='white'
       >

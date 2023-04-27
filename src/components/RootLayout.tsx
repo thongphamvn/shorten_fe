@@ -4,7 +4,7 @@ import Navbar from './Navbar'
 
 export default function RootLayout() {
   return (
-    <Box height={'calc(100vh - 3rem)'}>
+    <Box minHeight={'calc(100vh - 3rem)'}>
       <Navbar />
       <Box h={'full'} bg='gray.100'>
         <Outlet />
