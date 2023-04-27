@@ -99,6 +99,7 @@ export default function Home() {
               bg='white'
               rounded={4}
               p={4}
+              overflowX={'auto'}
             >
               {outlet || (
                 <Skeleton isLoaded={!isFetching}>

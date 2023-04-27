@@ -13,7 +13,7 @@ export default function ShortDetailPage() {
       <ShortDetail shortUrl={shortUrl!} />
     </ShortDrawer>
   ) : (
-    <Box minH={500} p={4} bg='white' rounded={'md'}>
+    <Box p={4} bg='white' rounded={'md'}>
       <Heading mb={4} as={'h3'} fontWeight={'semibold'} fontSize={'xl'}>
         Link Details
       </Heading>
