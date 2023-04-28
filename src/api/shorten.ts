@@ -5,7 +5,7 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query'
-import { AxiosError, AxiosResponse } from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 import api from './api'
 
 export type ShortenPayload = {
@@ -81,8 +81,9 @@ export const useSingleOneShort = (
   })
 
 // to link
+const serverUrl = import.meta.env.VITE_API_SERVER_URL
 const gotoLink = async (shortUrl: string) => {
-  const { data } = await api.get(`p/${shortUrl}`)
+  const { data } = await axios.get(`${serverUrl}/${shortUrl}`)
   return data
 }
 
