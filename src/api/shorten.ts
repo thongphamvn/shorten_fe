@@ -61,6 +61,8 @@ export type GetShortDetailsResponse = {
   shortUrl: string
   createdAt: string
   updatedAt: string
+  totalClicks: number
+  statistics: { month: string; count: number }[]
 }
 
 const getSingleShort = async (

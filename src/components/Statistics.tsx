@@ -7,39 +7,15 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-const data = [
-  {
-    name: `Jan '23`,
-    visit: 100,
-  },
-  {
-    name: `Feb '23`,
-    visit: 200,
-  },
-  {
-    name: `Mar '23`,
-    visit: 242,
-  },
-  {
-    name: `Apr '23`,
-    visit: 531,
-  },
-  {
-    name: `May '23`,
-    visit: 899,
-  },
-  {
-    name: `Jun '23`,
-    visit: 992,
-  },
-]
 
-export default function Statistic() {
+export default function Statistics({
+  data,
+}: {
+  data: { month: string; visit: number }[]
+}) {
   return (
     <ResponsiveContainer width='100%' height='100%'>
       <LineChart
-        width={500}
-        height={300}
         data={data}
         margin={{
           top: 10,
@@ -49,7 +25,7 @@ export default function Statistic() {
         }}
       >
         <CartesianGrid strokeDasharray='3 3' />
-        <XAxis dataKey='name' />
+        <XAxis dataKey='month' />
         <YAxis />
         <Tooltip />
         <Line
@@ -57,6 +33,7 @@ export default function Statistic() {
           type='monotone'
           dataKey='visit'
           stroke='#319795'
+          strokeWidth={2}
           activeDot={{ r: 8 }}
         />
       </LineChart>

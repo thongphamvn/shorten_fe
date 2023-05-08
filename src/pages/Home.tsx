@@ -68,7 +68,8 @@ export default function Home() {
             overflowY={'auto'}
             spacing={2}
             align='sketch'
-            w={['100%', 'sm', '300px', 'sm']}
+            w={['100%', 'sm', '300px']}
+            minWidth={'300px'}
             mr={[null, null, 4]}
             rounded={4}
             mb={4}

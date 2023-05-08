@@ -1,0 +1,15 @@
+import { CopyIcon } from '@chakra-ui/icons'
+import { IconButton, useClipboard } from '@chakra-ui/react'
+
+export default function CopyText({ text }: { text: string }) {
+  const { onCopy, hasCopied } = useClipboard(text)
+
+  return (
+    <IconButton
+      bg={hasCopied ? 'gray.100' : 'inherit'}
+      onClick={onCopy}
+      aria-label='Copy Icon'
+      icon={<CopyIcon color={'gray.600'} />}
+    ></IconButton>
+  )
+}

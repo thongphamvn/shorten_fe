@@ -1,19 +1,12 @@
-import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
-import {
-  Box,
-  Flex,
-  Heading,
-  IconButton,
-  Skeleton,
-  Spacer,
-  Text,
-} from '@chakra-ui/react'
+import { CalendarIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
+import { Box, Flex, IconButton, Skeleton, Text } from '@chakra-ui/react'
 import { format } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
 import { useDeleteShort, useSingleOneShort } from '../api/shorten'
 import { useCustomToast } from '../hooks/useCustomToast'
-import ShortUrl from './ShortUrl'
-import Statistic from './Statistic'
+import { buildShortUrl } from '../utils'
+import CopyText from './CopyText'
+import Statistics from './Statistics'
 
 export default function ShortDetail({ shortUrl }: { shortUrl: string }) {
   const toast = useCustomToast()
@@ -61,21 +54,28 @@ export default function ShortDetail({ shortUrl }: { shortUrl: string }) {
   }
 
   return (
-    <Box>
-      <Flex w='full'>
-        <Box>
-          <Heading fontSize={'xl'} fontWeight={'semibold'} as={'h3'}>
-            <ShortUrl short={short.shortUrl}></ShortUrl>
-          </Heading>
-          <Box fontSize={'sm'} fontWeight={'light'}>
-            <Text as='span'>{`Created on `}</Text>
-            <Text as='span'>
+    <Box flex={1}>
+      <Flex>
+        <Box flex={1}>
+          <Flex align={'center'} fontWeight={'semibold'} fontSize={'lg'}>
+            <Text>{buildShortUrl(short.shortUrl)}</Text>
+            <CopyText text={buildShortUrl(short.shortUrl)} />
+          </Flex>
+
+          <Flex
+            align={'center'}
+            fontSize={'sm'}
+            fontWeight={'light'}
+            fontStyle={'italic'}
+          >
+            <CalendarIcon />
+            <Text pl={1} as='span'>
               {format(new Date(short.createdAt), 'dd MMM yyyy, hh:mm:ss a')}
             </Text>
-          </Box>
+          </Flex>
         </Box>
-        <Spacer />
-        <Box>
+
+        <Box ml={4}>
           <IconButton mr={2} aria-label='Edit Icon' icon={<EditIcon />} />
           <IconButton
             isLoading={isLoading}
@@ -87,13 +87,34 @@ export default function ShortDetail({ shortUrl }: { shortUrl: string }) {
         </Box>
       </Flex>
 
-      <Box>
-        <Text>Total visits: 100</Text>
+      <Box py={1} mt={8}>
+        <Text as={'h3'} fontSize={'xl'} fontWeight={'semibold'}>
+          Original URL
+        </Text>
+        <Flex align={'center'}>
+          <Text maxWidth={['md', 'md', 'sm']} fontStyle={'italic'}>
+            {short.originalUrl}
+          </Text>
+          <CopyText text={short.originalUrl} />
+        </Flex>
       </Box>
 
-      <Box height={'300px'}>
-        <Text>Statistics in the last 6 months</Text>
-        <Statistic />
+      <Box mt={8}>
+        <Text as={'h3'} fontSize={'xl'} fontWeight={'semibold'}>
+          All time total visits: {short.totalClicks}
+        </Text>
+      </Box>
+
+      <Box mt={8} height={'300px'}>
+        <Text as={'h3'} fontSize={'xl'} fontWeight={'semibold'}>
+          Statistics
+        </Text>
+        <Statistics
+          data={short.statistics.map((stat) => ({
+            month: stat.month,
+            visit: stat.count,
+          }))}
+        />
       </Box>
     </Box>
   )
