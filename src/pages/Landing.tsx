@@ -2,7 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { Box, Button, Container, Flex, Image, Text } from '@chakra-ui/react'
 
 export default function Landing() {
-  const { isAuthenticated, loginWithPopup } = useAuth0()
+  const { loginWithPopup } = useAuth0()
 
   const handleLogin = () => {
     loginWithPopup()
