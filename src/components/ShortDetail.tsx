@@ -102,12 +102,9 @@ export default function ShortDetail({ shortUrl }: { shortUrl: string }) {
         <Text as={'h3'} fontSize={'xl'} fontWeight={'semibold'}>
           Original URL
         </Text>
-        <Flex justify={'flex-start'} alignItems={'start'}>
-          <Text wordBreak={'break-word'} width={['80%']} fontStyle={'italic'}>
-            {short.originalUrl}
-          </Text>
-          <CopyText text={short.originalUrl} />
-        </Flex>
+        <Text wordBreak={'break-word'} width={['100%']} fontStyle={'italic'}>
+          {short.originalUrl}
+        </Text>
       </Box>
 
       <Box mt={8}>
