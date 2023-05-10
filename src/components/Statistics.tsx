@@ -1,7 +1,8 @@
 import {
+  Bar,
+  BarChart,
   CartesianGrid,
-  Line,
-  LineChart,
+  Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -15,7 +16,7 @@ export default function Statistics({
 }) {
   return (
     <ResponsiveContainer width='100%' height='100%'>
-      <LineChart
+      <BarChart
         data={data}
         margin={{
           top: 10,
@@ -26,17 +27,11 @@ export default function Statistics({
       >
         <CartesianGrid strokeDasharray='3 3' />
         <XAxis dataKey='month' />
-        <YAxis />
+        <YAxis allowDecimals={false} />
         <Tooltip />
-        <Line
-          width={20}
-          type='monotone'
-          dataKey='visit'
-          stroke='#319795'
-          strokeWidth={2}
-          activeDot={{ r: 8 }}
-        />
-      </LineChart>
+        <Legend />
+        <Bar type='monotone' barSize={30} dataKey='visit' fill='#319795' />
+      </BarChart>
     </ResponsiveContainer>
   )
 }

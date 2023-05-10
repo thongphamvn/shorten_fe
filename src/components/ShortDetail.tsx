@@ -55,9 +55,9 @@ export default function ShortDetail({ shortUrl }: { shortUrl: string }) {
 
   return (
     <Box flex={1}>
-      <Flex>
+      <Flex alignItems={'start'}>
         <Box flex={1}>
-          <Flex align={'center'} fontWeight={'semibold'} fontSize={'lg'}>
+          <Flex align={'center'} fontWeight={'semibold'} fontSize={'md'}>
             <Text>{buildShortUrl(short.shortUrl)}</Text>
             <CopyText text={buildShortUrl(short.shortUrl)} />
           </Flex>
@@ -75,10 +75,21 @@ export default function ShortDetail({ shortUrl }: { shortUrl: string }) {
           </Flex>
         </Box>
 
-        <Box ml={4}>
-          <IconButton mr={2} aria-label='Edit Icon' icon={<EditIcon />} />
+        <Box ml={2}>
+          <IconButton
+            color={'teal.500'}
+            colorScheme='teal'
+            mr={1}
+            size={'sm'}
+            aria-label='Edit Icon'
+            variant={'outline'}
+            icon={<EditIcon />}
+          />
           <IconButton
             isLoading={isLoading}
+            variant={'outline'}
+            size={'sm'}
+            colorScheme='red'
             onClick={() => handleDel()}
             color={'red.500'}
             aria-label='Delete Icon'
@@ -91,8 +102,8 @@ export default function ShortDetail({ shortUrl }: { shortUrl: string }) {
         <Text as={'h3'} fontSize={'xl'} fontWeight={'semibold'}>
           Original URL
         </Text>
-        <Flex align={'center'}>
-          <Text maxWidth={['md', 'md', 'sm']} fontStyle={'italic'}>
+        <Flex justify={'flex-start'} alignItems={'start'}>
+          <Text wordBreak={'break-word'} width={['80%']} fontStyle={'italic'}>
             {short.originalUrl}
           </Text>
           <CopyText text={short.originalUrl} />

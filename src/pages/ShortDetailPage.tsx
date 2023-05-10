@@ -13,10 +13,12 @@ export default function ShortDetailPage() {
       <ShortDetail shortUrl={shortUrl!} />
     </ShortDrawer>
   ) : (
-    <Box p={4} bg='white' rounded={'md'}>
-      <Heading mb={4} as={'h3'} fontWeight={'semibold'} fontSize={'xl'}>
-        Link Details
-      </Heading>
+    <Box bg='white' rounded={'md'}>
+      <Box pb={2} mb={4} borderBottomWidth={1} borderBottomColor={'gray.300'}>
+        <Heading as={'h3'} fontWeight={'semibold'} fontSize={'xl'}>
+          Link Details
+        </Heading>
+      </Box>
 
       <ShortDetail shortUrl={shortUrl!} />
     </Box>

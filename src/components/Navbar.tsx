@@ -14,7 +14,7 @@ export default function Navbar() {
         maxW={'5xl'}
       >
         <Link to={'/'}>
-          <Image h={10} src='short.svg' />
+          <Image h={10} src='/short.svg' />
         </Link>
 
         <Spacer />

@@ -66,7 +66,7 @@ export default function Home() {
             h={[null, null, `calc(100vh - 11rem)`]}
             bg={[null, null, 'white']}
             overflowY={'auto'}
-            spacing={2}
+            spacing={0}
             align='sketch'
             w={['100%', 'sm', '300px']}
             minWidth={'300px'}
@@ -87,7 +87,12 @@ export default function Home() {
 
             {!isFetching &&
               data?.map((link) => (
-                <Box key={link.id} w='full'>
+                <Box
+                  borderBottom={'1px'}
+                  borderColor={'gray.100'}
+                  key={link.id}
+                  w='full'
+                >
                   <ShortenCard link={link} />
                 </Box>
               ))}
