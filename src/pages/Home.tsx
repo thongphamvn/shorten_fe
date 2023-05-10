@@ -1,10 +1,11 @@
+import { AddIcon } from '@chakra-ui/icons'
 import {
   Box,
+  Button,
   Container,
   Flex,
-  Heading,
+  Link,
   Skeleton,
-  SkeletonText,
   Text,
   VStack,
 } from '@chakra-ui/react'
@@ -30,7 +31,19 @@ export default function Home() {
         p={4}
       >
         <Text>
-          Click <CreateNewModal /> to create your first link.
+          <CreateNewModal
+            createBtn={
+              <Link
+                as={'span'}
+                aria-label='Add New'
+                color={'teal.500'}
+                fontWeight={'bold'}
+              >
+                Click here
+              </Link>
+            }
+          />{' '}
+          to create your first link.
         </Text>
       </Container>
     )
@@ -39,21 +52,29 @@ export default function Home() {
   return (
     <Container h='100%' maxW='container.lg' mx={'auto'} p={9}>
       <VStack>
-        <Flex h={8} my={4} px={4} mx='auto' maxW='lg' align={'center'}>
-          <SkeletonText isLoaded={!isFetching}>
-            {data?.length === 10 ? (
-              <Heading as={'h3'} size={'sm'} fontWeight={'normal'}>
-                You have reached the maximum limit of 10 links allowed per user.
-                Please delete a link to add a new one.{' '}
-              </Heading>
-            ) : (
-              <Heading as={'h3'} size={'sm'} fontWeight={'normal'}>
-                There is a limit of 10 links that each user can create. You have
-                already created {data?.length} out of 10. To add a new link,
-                please click <CreateNewModal />.
-              </Heading>
-            )}
-          </SkeletonText>
+        <Flex width={'100%'} px={4} alignItems={'end'} justify={'flex-end'}>
+          {data?.length < 10 && (
+            <CreateNewModal
+              createBtn={
+                <Button
+                  leftIcon={<AddIcon />}
+                  aria-label='Add New'
+                  colorScheme='teal'
+                  size={'sm'}
+                  variant={'ghost'}
+                  isDisabled={isFetching}
+                >
+                  New Link
+                </Button>
+              }
+            />
+          )}
+          {data?.length === 10 && (
+            <Text fontSize={'sm'} fontWeight={'light'}>
+              You have reached the maximum limit of 10 links allowed per user.
+              Please delete a link to add a new one.{' '}
+            </Text>
+          )}
         </Flex>
 
         <Flex

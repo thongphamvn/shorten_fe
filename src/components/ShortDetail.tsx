@@ -109,7 +109,7 @@ export default function ShortDetail({ shortUrl }: { shortUrl: string }) {
 
       <Box mt={8}>
         <Text as={'h3'} fontSize={'xl'} fontWeight={'semibold'}>
-          All time total visits: {short.totalClicks}
+          Total visits: {short.totalClicks}
         </Text>
       </Box>
 

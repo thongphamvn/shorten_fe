@@ -1,10 +1,10 @@
 import {
+  Box,
   Button,
   FormControl,
   FormErrorMessage,
   FormLabel,
   Input,
-  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -28,7 +28,11 @@ const schema = yup.object<ShortenPayload>().shape({
   customShortUrl: yup.string(),
 })
 
-export default function CreateNewModal() {
+export default function CreateNewModal({
+  createBtn,
+}: {
+  createBtn: React.ReactElement
+}) {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const initialRef = React.useRef<HTMLInputElement | null>(null)
@@ -69,15 +73,9 @@ export default function CreateNewModal() {
 
   return (
     <>
-      <Link
-        onClick={onOpen}
-        aria-label='Add New'
-        color={'teal.500'}
-        borderColor={'teal.500'}
-        fontWeight={'bold'}
-      >
-        here
-      </Link>
+      <Box as='span' onClick={onOpen}>
+        {createBtn}
+      </Box>
 
       <Modal
         initialFocusRef={initialRef}
