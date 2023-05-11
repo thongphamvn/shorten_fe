@@ -2,7 +2,6 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
-  Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -29,7 +28,6 @@ export default function Statistics({
         <XAxis dataKey='period' />
         <YAxis allowDecimals={false} />
         <Tooltip />
-        <Legend />
         <Bar type='monotone' barSize={30} dataKey='visit' fill='#319795' />
       </BarChart>
     </ResponsiveContainer>

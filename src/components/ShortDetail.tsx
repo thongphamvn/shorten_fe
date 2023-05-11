@@ -1,4 +1,4 @@
-import { CalendarIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
+import { CalendarIcon, DeleteIcon } from '@chakra-ui/icons'
 import { Box, Flex, IconButton, Skeleton, Text } from '@chakra-ui/react'
 import { format } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
@@ -76,7 +76,7 @@ export default function ShortDetail({ shortUrl }: { shortUrl: string }) {
         </Box>
 
         <Box ml={2}>
-          <IconButton
+          {/* <IconButton
             color={'teal.500'}
             colorScheme='teal'
             mr={1}
@@ -84,7 +84,7 @@ export default function ShortDetail({ shortUrl }: { shortUrl: string }) {
             aria-label='Edit Icon'
             variant={'outline'}
             icon={<EditIcon />}
-          />
+          /> */}
           <IconButton
             isLoading={isLoading}
             variant={'outline'}
