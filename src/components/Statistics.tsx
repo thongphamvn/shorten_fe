@@ -12,7 +12,7 @@ import {
 export default function Statistics({
   data,
 }: {
-  data: { month: string; visit: number }[]
+  data: { period: string; visit: number }[]
 }) {
   return (
     <ResponsiveContainer width='100%' height='100%'>
@@ -26,7 +26,7 @@ export default function Statistics({
         }}
       >
         <CartesianGrid strokeDasharray='3 3' />
-        <XAxis dataKey='month' />
+        <XAxis dataKey='period' />
         <YAxis allowDecimals={false} />
         <Tooltip />
         <Legend />

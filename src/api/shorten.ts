@@ -5,7 +5,7 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query'
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import { AxiosError } from 'axios'
 import api from './api'
 
 export type ShortenPayload = {
@@ -62,7 +62,7 @@ export type GetShortDetailsResponse = {
   createdAt: string
   updatedAt: string
   totalClicks: number
-  statistics: { month: string; count: number }[]
+  statistics: { period: string; count: number }[]
 }
 
 const getSingleShort = async (
@@ -80,30 +80,6 @@ export const useSingleOneShort = (
     queryKey: ['shorten-detail', short],
     queryFn: () => getSingleShort(short),
     ...opts,
-  })
-
-// to link
-const serverUrl = import.meta.env.VITE_API_SERVER_URL
-const gotoLink = async (shortUrl: string) => {
-  const { data } = await axios.get(`${serverUrl}/${shortUrl}`)
-  return data
-}
-
-type GotoLinkResponse = {
-  url: string
-}
-
-export const useGotoLink = (
-  shortUrl: string,
-  opts: UseQueryOptions<
-    AxiosResponse<GotoLinkResponse>['data'],
-    AxiosError
-  > = {}
-) =>
-  useQuery<AxiosResponse<GotoLinkResponse>['data'], AxiosError>({
-    ...opts,
-    queryKey: ['gotoLink', shortUrl],
-    queryFn: () => gotoLink(shortUrl),
   })
 
 // Delete

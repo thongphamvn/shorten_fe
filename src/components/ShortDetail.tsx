@@ -119,7 +119,7 @@ export default function ShortDetail({ shortUrl }: { shortUrl: string }) {
         </Text>
         <Statistics
           data={short.statistics.map((stat) => ({
-            month: stat.month,
+            period: format(new Date(stat.period), 'dd-MMM'),
             visit: stat.count,
           }))}
         />
