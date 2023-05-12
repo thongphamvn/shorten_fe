@@ -43,6 +43,13 @@ export default function ShortDetail({ shortUrl }: { shortUrl: string }) {
     return <Box>Something went wrong</Box>
   }
 
+  console.log(
+    short?.statistics.map((stat) => ({
+      period: format(new Date(`${stat.period} 0:00:00.000`), 'dd-MMM'),
+      visit: stat.count,
+    }))
+  )
+
   if (isFetching || !short) {
     return (
       <Flex gap={4} direction={'column'} w='100%'>
@@ -119,7 +126,7 @@ export default function ShortDetail({ shortUrl }: { shortUrl: string }) {
         </Text>
         <Statistics
           data={short.statistics.map((stat) => ({
-            period: format(new Date(stat.period), 'dd-MMM'),
+            period: format(new Date(`${stat.period} 0:00:00.000`), 'dd-MMM'),
             visit: stat.count,
           }))}
         />
