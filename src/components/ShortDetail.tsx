@@ -46,7 +46,6 @@ export default function ShortDetail({ shortUrl }: { shortUrl: string }) {
   console.log(
     short?.statistics.map((stat) => ({
       period: format(new Date(`${stat.period} 0:00:00.000`), 'dd-MMM'),
-      visit: stat.count,
     }))
   )
 
