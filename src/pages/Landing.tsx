@@ -10,7 +10,7 @@ export default function Landing() {
 
   return (
     <Box h={'100vh'} bgColor={'white'}>
-      <Container mx={'auto'} maxW={'container.sm'}>
+      <Container mx={'auto'} maxW={'md'}>
         <Flex
           height={'full'}
           direction={'column'}
