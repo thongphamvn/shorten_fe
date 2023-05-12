@@ -84,7 +84,7 @@ export default function Home() {
           align={['center', null, 'start']}
         >
           <VStack
-            h={[null, null, `calc(100vh - 11rem)`]}
+            h={[null, null, `calc(100vh - 9rem)`]}
             bg={[null, null, 'white']}
             overflowY={'auto'}
             spacing={0}
@@ -122,7 +122,7 @@ export default function Home() {
           <Box flex={1}>
             <Box
               display={['none', null, 'block']}
-              h={`calc(100vh - 11rem)`}
+              h={`calc(100vh - 9rem)`}
               bg='white'
               rounded={4}
               p={4}
