@@ -33,9 +33,7 @@ export default function Landing() {
             <Text as='span' fontWeight={'semibold'}>
               Short.
             </Text>{' '}
-            provides the ability to condense lengthy URLs from popular platforms
-            such as Instagram, Facebook, YouTube, Twitter, LinkedIn, WhatsApp,
-            TikTok, blogs, and other websites.
+            provides the ability to condense lengthy URLs from any websites.
           </Text>
           <Text mt={2}>
             You can shorten links, customize the shortname, and even see how
