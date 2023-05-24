@@ -11,13 +11,16 @@ import api from './api'
 export type ShortenPayload = {
   originalUrl: string
   customShortUrl?: string
+  displayName?: string
 }
-
-export type ShortenUrlType = {
+export type ShortenResponse = {
   id: string
   originalUrl: string
   shortUrl: string
-  ownerId?: string
+  createdAt: string
+  updatedAt: string
+  totalClicks: number
+  displayName?: string
 }
 
 // create
@@ -27,10 +30,10 @@ const createShort = async (payload: ShortenPayload) => {
 }
 
 export const useCreateShort = (
-  opts: UseMutationOptions<ShortenUrlType, AxiosError, ShortenPayload> = {}
+  opts: UseMutationOptions<ShortenResponse, AxiosError, ShortenPayload> = {}
 ) => {
   const queryClient = useQueryClient()
-  return useMutation<ShortenUrlType, AxiosError, ShortenPayload>({
+  return useMutation<ShortenResponse, AxiosError, ShortenPayload>({
     ...opts,
     mutationFn: (p: ShortenPayload) => createShort(p),
     onSuccess: (...args) => {
@@ -47,44 +50,31 @@ const getShorts = async () => {
 }
 
 export const useGetShorten = () =>
-  useQuery<ShortenUrlType[]>({
+  useQuery<ShortenResponse[]>({
     queryKey: ['shorten'],
     queryFn: () => getShorts(),
     initialData: [],
     refetchOnWindowFocus: false,
   })
 
-// get one
-export type GetShortDetailsResponse = {
-  id: string
-  originalUrl: string
-  shortUrl: string
-  createdAt: string
-  updatedAt: string
-  totalClicks: number
-  statistics: { period: string; count: number }[]
-}
-
-const getSingleShort = async (
-  short: string
-): Promise<GetShortDetailsResponse> => {
-  const { data } = await api.get<GetShortDetailsResponse>(`shorten/${short}`)
+const getSingleShort = async (short: string): Promise<ShortenResponse> => {
+  const { data } = await api.get<ShortenResponse>(`shorten/${short}`)
   return data
 }
 
 export const useSingleOneShort = (
   short: string,
-  opts: UseQueryOptions<GetShortDetailsResponse> = {}
+  opts: UseQueryOptions<ShortenResponse> = {}
 ) =>
-  useQuery<GetShortDetailsResponse>({
-    queryKey: ['shorten-detail', short],
+  useQuery<ShortenResponse>({
+    queryKey: ['shorten-stats', short],
     queryFn: () => getSingleShort(short),
     ...opts,
   })
 
 // Delete
 const deleteShort = async (short: string): Promise<void> => {
-  await api.delete<GetShortDetailsResponse>(`shorten/${short}`)
+  await api.delete(`shorten/${short}`)
 }
 
 export const useDeleteShort = (
@@ -101,3 +91,58 @@ export const useDeleteShort = (
     },
   })
 }
+
+// Update
+type UpdateShortDto = {
+  displayName?: string
+}
+
+const updateShort = async (
+  short: string,
+  dto: UpdateShortDto
+): Promise<ShortenResponse> => {
+  return api.put(`shorten/${short}`, dto)
+}
+
+export const useUpdateShort = (
+  short: string,
+  opts: UseMutationOptions<ShortenResponse, AxiosError, UpdateShortDto> = {}
+) => {
+  const queryClient = useQueryClient()
+  return useMutation<ShortenResponse, AxiosError, UpdateShortDto>({
+    ...opts,
+    mutationFn: (dto) => updateShort(short, dto),
+    onSuccess: (...args) => {
+      opts.onSuccess?.(...args)
+      queryClient.invalidateQueries(['shorten'])
+    },
+  })
+}
+
+// get stats
+export type ShortStatistics = {
+  timestamp: string
+  count: number
+}
+
+type Period = '24h' | '7days'
+const getStats = async (
+  short: string,
+  query: { period: Period }
+): Promise<ShortStatistics[]> => {
+  const { data } = await api.get<ShortStatistics[]>(`shorten/${short}/stats`, {
+    params: query,
+  })
+  return data
+}
+
+export const useGetStats = (
+  short: string,
+  period: Period,
+  opts: UseQueryOptions<ShortStatistics[]> = {}
+) =>
+  useQuery({
+    queryKey: ['shorten-stats', short, period],
+    queryFn: () => getStats(short, { period }),
+    ...opts,
+  })

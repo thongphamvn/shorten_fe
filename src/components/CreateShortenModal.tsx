@@ -26,6 +26,7 @@ const schema = yup.object<ShortenPayload>().shape({
     .url('Please enter a valid URL')
     .required('This field is required'),
   customShortUrl: yup.string(),
+  displayName: yup.string(),
 })
 
 export default function CreateNewModal({
@@ -66,6 +67,7 @@ export default function CreateNewModal({
     await mutate({
       originalUrl: data.originalUrl,
       customShortUrl: data.customShortUrl,
+      displayName: data.displayName,
     })
   }
 
@@ -85,7 +87,7 @@ export default function CreateNewModal({
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create your Short</ModalHeader>
+          <ModalHeader>Create your Short URL</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl isRequired isInvalid={!!errors.originalUrl}>
@@ -109,6 +111,15 @@ export default function CreateNewModal({
               {errors.customShortUrl && (
                 <FormErrorMessage>
                   {errors.customShortUrl.message as string}
+                </FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Display Name</FormLabel>
+              <Input {...register('displayName')} />
+              {errors.displayName && (
+                <FormErrorMessage>
+                  {errors.displayName.message as string}
                 </FormErrorMessage>
               )}
             </FormControl>

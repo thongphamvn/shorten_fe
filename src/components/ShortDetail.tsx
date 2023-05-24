@@ -1,4 +1,4 @@
-import { CalendarIcon, DeleteIcon } from '@chakra-ui/icons'
+import { CalendarIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import { Box, Flex, IconButton, Skeleton, Text } from '@chakra-ui/react'
 import { format } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
@@ -16,7 +16,7 @@ export default function ShortDetail({ shortUrl }: { shortUrl: string }) {
     data: short,
     isFetching,
     error,
-  } = useSingleOneShort(shortUrl!, {
+  } = useSingleOneShort(shortUrl, {
     enabled: !!shortUrl,
     refetchOnWindowFocus: false,
   })
@@ -57,7 +57,24 @@ export default function ShortDetail({ shortUrl }: { shortUrl: string }) {
     <Box flex={1}>
       <Flex alignItems={'start'}>
         <Box flex={1}>
-          <Flex align={'center'} fontWeight={'semibold'} fontSize={'md'}>
+          <Flex align={'center'}>
+            <Text fontWeight={'semibold'} fontSize={'lg'}>
+              {short.displayName}
+            </Text>
+            <IconButton
+              mr={2}
+              size={'sm'}
+              aria-label='Edit Icon'
+              variant={'ghost'}
+              icon={<EditIcon />}
+            />
+          </Flex>
+          <Flex
+            align={'center'}
+            fontWeight={'semibold'}
+            color={'teal'}
+            fontSize={'md'}
+          >
             <Text>{buildShortUrl(short.shortUrl)}</Text>
             <CopyText text={buildShortUrl(short.shortUrl)} />
           </Flex>
@@ -76,15 +93,6 @@ export default function ShortDetail({ shortUrl }: { shortUrl: string }) {
         </Box>
 
         <Box ml={2}>
-          {/* <IconButton
-            color={'teal.500'}
-            colorScheme='teal'
-            mr={1}
-            size={'sm'}
-            aria-label='Edit Icon'
-            variant={'outline'}
-            icon={<EditIcon />}
-          /> */}
           <IconButton
             isLoading={isLoading}
             variant={'outline'}
@@ -113,16 +121,8 @@ export default function ShortDetail({ shortUrl }: { shortUrl: string }) {
         </Text>
       </Box>
 
-      <Box mt={8} height={'300px'}>
-        <Text as={'h3'} fontSize={'xl'} fontWeight={'semibold'}>
-          Statistics
-        </Text>
-        <Statistics
-          data={short.statistics.map((stat) => ({
-            period: format(new Date(stat.period.replace('-', '/')), 'dd-MMM'),
-            visit: stat.count,
-          }))}
-        />
+      <Box mt={8}>
+        <Statistics shortUrl={short.shortUrl} />
       </Box>
     </Box>
   )
