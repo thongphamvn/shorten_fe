@@ -62,12 +62,12 @@ const getSingleShort = async (short: string): Promise<ShortenResponse> => {
   return data
 }
 
-export const useSingleOneShort = (
+export const useGetShort = (
   short: string,
   opts: UseQueryOptions<ShortenResponse> = {}
 ) =>
   useQuery<ShortenResponse>({
-    queryKey: ['shorten-stats', short],
+    queryKey: [short],
     queryFn: () => getSingleShort(short),
     ...opts,
   })
@@ -114,7 +114,7 @@ export const useUpdateShort = (
     mutationFn: (dto) => updateShort(short, dto),
     onSuccess: (...args) => {
       opts.onSuccess?.(...args)
-      queryClient.invalidateQueries(['shorten'])
+      queryClient.invalidateQueries([short])
     },
   })
 }

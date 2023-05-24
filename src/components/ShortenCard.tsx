@@ -1,9 +1,9 @@
 import { Box, Text } from '@chakra-ui/react'
 import { Link, useParams } from 'react-router-dom'
-import { ShortenUrlType } from '../api/shorten'
+import { ShortenResponse } from '../api/shorten'
 import ShortUrl from './ShortUrl'
 
-export default function ShortenCard({ link }: { link: ShortenUrlType }) {
+export default function ShortenCard({ link }: { link: ShortenResponse }) {
   const { originalUrl, displayName, shortUrl } = link
   const { shortUrl: selectedShort } = useParams()
 

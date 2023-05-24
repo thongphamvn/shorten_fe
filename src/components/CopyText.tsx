@@ -9,6 +9,7 @@ export default function CopyText({ text }: { text: string }) {
       ml={1}
       bg={hasCopied ? 'gray.100' : 'inherit'}
       onClick={onCopy}
+      size={'sm'}
       aria-label='Copy Icon'
       icon={<CopyIcon color={'gray.600'} />}
     ></IconButton>

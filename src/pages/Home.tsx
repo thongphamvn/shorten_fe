@@ -111,7 +111,7 @@ export default function Home() {
                 <Box
                   borderBottom={'1px'}
                   borderColor={'gray.100'}
-                  key={link.id}
+                  key={link.shortUrl}
                   w='full'
                 >
                   <ShortenCard link={link} />
