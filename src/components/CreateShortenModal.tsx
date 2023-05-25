@@ -18,9 +18,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import { ShortenPayload, useCreateShort } from '../api/shorten'
+import { useCreateShort } from '../api/shorten'
+import { ShortenUrlDto } from '../openapi'
 
-const schema = yup.object<ShortenPayload>().shape({
+const schema = yup.object<ShortenUrlDto>().shape({
   originalUrl: yup
     .string()
     .url('Please enter a valid URL')
@@ -45,7 +46,7 @@ export default function CreateNewModal({
     reset,
     setError,
     formState: { errors },
-  } = useForm<ShortenPayload>({
+  } = useForm<ShortenUrlDto>({
     resolver: yupResolver(schema),
   })
 
@@ -63,7 +64,7 @@ export default function CreateNewModal({
     },
   })
 
-  const onSubmit = async (data: ShortenPayload) => {
+  const onSubmit = async (data: ShortenUrlDto) => {
     await mutate({
       originalUrl: data.originalUrl,
       customShortUrl: data.customShortUrl,

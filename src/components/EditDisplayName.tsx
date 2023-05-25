@@ -1,8 +1,9 @@
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons'
 import { Flex, IconButton, Input } from '@chakra-ui/react'
 import { useState } from 'react'
-import { ShortenResponse, useUpdateShort } from '../api/shorten'
+import { useUpdateShort } from '../api/shorten'
 import { useCustomToast } from '../hooks/useCustomToast'
+import { ShortenResponse } from '../openapi'
 
 export default function EditDisplayName({
   short,

@@ -6,36 +6,27 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
+import {
+  EditShortDto,
+  ShortenResponse,
+  ShortenUrlDto,
+  StatsResponse,
+} from '../openapi'
 import api from './api'
 
-export type ShortenPayload = {
-  originalUrl: string
-  customShortUrl?: string
-  displayName?: string
-}
-export type ShortenResponse = {
-  id: string
-  originalUrl: string
-  shortUrl: string
-  createdAt: string
-  updatedAt: string
-  totalClicks: number
-  displayName?: string
-}
-
 // create
-const createShort = async (payload: ShortenPayload) => {
+const createShort = async (payload: ShortenUrlDto) => {
   const { data } = await api.post('shorten', payload)
   return data
 }
 
 export const useCreateShort = (
-  opts: UseMutationOptions<ShortenResponse, AxiosError, ShortenPayload> = {}
+  opts: UseMutationOptions<ShortenResponse, AxiosError, ShortenUrlDto> = {}
 ) => {
   const queryClient = useQueryClient()
-  return useMutation<ShortenResponse, AxiosError, ShortenPayload>({
+  return useMutation<ShortenResponse, AxiosError, ShortenUrlDto>({
     ...opts,
-    mutationFn: (p: ShortenPayload) => createShort(p),
+    mutationFn: (p: ShortenUrlDto) => createShort(p),
     onSuccess: (...args) => {
       opts.onSuccess?.(...args)
       queryClient.invalidateQueries(['shorten'])
@@ -93,23 +84,19 @@ export const useDeleteShort = (
 }
 
 // Update
-type UpdateShortDto = {
-  displayName?: string
-}
-
 const updateShort = async (
   short: string,
-  dto: UpdateShortDto
+  dto: EditShortDto
 ): Promise<ShortenResponse> => {
   return api.put(`shorten/${short}`, dto)
 }
 
 export const useUpdateShort = (
   short: string,
-  opts: UseMutationOptions<ShortenResponse, AxiosError, UpdateShortDto> = {}
+  opts: UseMutationOptions<ShortenResponse, AxiosError, EditShortDto> = {}
 ) => {
   const queryClient = useQueryClient()
-  return useMutation<ShortenResponse, AxiosError, UpdateShortDto>({
+  return useMutation<ShortenResponse, AxiosError, EditShortDto>({
     ...opts,
     mutationFn: (dto) => updateShort(short, dto),
     onSuccess: (...args) => {
@@ -120,17 +107,12 @@ export const useUpdateShort = (
 }
 
 // get stats
-export type ShortStatistics = {
-  timestamp: string
-  count: number
-}
-
 type Period = '24h' | '7days'
 const getStats = async (
   short: string,
   query: { period: Period }
-): Promise<ShortStatistics[]> => {
-  const { data } = await api.get<ShortStatistics[]>(`shorten/${short}/stats`, {
+): Promise<StatsResponse[]> => {
+  const { data } = await api.get<StatsResponse[]>(`shorten/${short}/stats`, {
     params: query,
   })
   return data
@@ -139,7 +121,7 @@ const getStats = async (
 export const useGetStats = (
   short: string,
   period: Period,
-  opts: UseQueryOptions<ShortStatistics[]> = {}
+  opts: UseQueryOptions<StatsResponse[]> = {}
 ) =>
   useQuery({
     queryKey: ['shorten-stats', short, period],

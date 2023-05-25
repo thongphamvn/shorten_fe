@@ -10,13 +10,11 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import { ShortStatistics, useGetStats } from '../api/shorten'
+import { useGetStats } from '../api/shorten'
+import { StatsPeriod, StatsResponse } from '../openapi'
 
-const buildChartData = (
-  period: '24h' | '7days',
-  data: ShortStatistics[] = []
-) => {
-  if (period === '24h') {
+const buildChartData = (period: StatsPeriod, data: StatsResponse[] = []) => {
+  if (period === StatsPeriod._24H) {
     return Array.from({ length: 24 }, (_, i) => {
       const currentDate = subHours(new Date(), 23 - i)
       const formattedHour = format(currentDate, 'h a')
@@ -46,7 +44,7 @@ const buildChartData = (
 }
 
 export default function Statistics({ shortUrl }: { shortUrl: string }) {
-  const [period, setPeriod] = useState<'24h' | '7days'>('24h')
+  const [period, setPeriod] = useState<StatsPeriod>(StatsPeriod._24H)
 
   const { data } = useGetStats(shortUrl, period, {
     initialData: [],
@@ -67,11 +65,11 @@ export default function Statistics({ shortUrl }: { shortUrl: string }) {
           size={'sm'}
           value={period}
           onChange={(ev) => {
-            setPeriod(ev.target.value as '24h' | '7days')
+            setPeriod(ev.target.value as StatsPeriod)
           }}
         >
-          <option value='24h'>Last 24h</option>
-          <option value='7days'>Last 7 days</option>
+          <option value={StatsPeriod._24H}>Last 24h</option>
+          <option value={StatsPeriod._7DAYS}>Last 7 days</option>
         </Select>
       </Flex>
 

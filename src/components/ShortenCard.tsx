@@ -1,6 +1,6 @@
 import { Box, Text } from '@chakra-ui/react'
 import { Link, useParams } from 'react-router-dom'
-import { ShortenResponse } from '../api/shorten'
+import { ShortenResponse } from '../openapi'
 import ShortUrl from './ShortUrl'
 
 export default function ShortenCard({ link }: { link: ShortenResponse }) {
