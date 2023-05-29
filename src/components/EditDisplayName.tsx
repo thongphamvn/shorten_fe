@@ -36,6 +36,7 @@ export default function EditDisplayName({
     },
   })
 
+  console.log(value)
   return (
     <Flex justify={'center'} width={'full'} maxW={400} alignItems={'center'}>
       <Input
