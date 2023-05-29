@@ -101,7 +101,7 @@ export const useUpdateShort = (
     mutationFn: (dto) => updateShort(short, dto),
     onSuccess: (...args) => {
       opts.onSuccess?.(...args)
-      queryClient.invalidateQueries([short])
+      queryClient.invalidateQueries([short, 'shorten'])
     },
   })
 }
